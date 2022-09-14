@@ -1,0 +1,58 @@
+.footerContainer {
+  height: calc(100vh - 100px);
+  background-color: rgb(33, 35, 26);
+  display: flex;
+
+  @media screen and (max-width: 767px) {
+    height: auto;
+    text-align: center;
+  }
+  @media screen and (min-width: 767px) and (max-width: 1024px) {
+    text-align: center;
+  }
+
+  .items {
+    flex: 1;
+    position: relative;
+    display: flex;
+
+    @media screen and (max-width: 1025px) {
+      flex-direction: column;
+
+      &:first-child {
+        display: none;
+      }
+    }
+
+    &:last-child {
+      flex: 2;
+      padding: 50px;
+    }
+
+    .card {
+      flex: 1;
+      padding: 0 20px;
+      justify-content: space-between;
+
+      .motto {
+        color: rgb(211, 211, 211);
+      }
+      .title {
+        font-size: 18px;
+        color: #b7903c;
+
+        @media screen and (max-width: 767px) {
+          font-size: 30px;
+        }
+      }
+
+      .text {
+        color: lightgray;
+
+        @media screen and (max-width: 767px) {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}

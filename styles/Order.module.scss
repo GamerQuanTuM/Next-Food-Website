@@ -1,0 +1,187 @@
+.orderContainer {
+  padding: 50px;
+  display: flex;
+  gap: 50px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  &:after {
+    background-image: url("https://thumbs.dreamstime.com/z/food-lunch-boxes-delivery-food-ukrainian-cuisine-wooden-background-top-view-copy-space-food-lunch-boxes-delivery-151205570.jpg");
+    content: "";
+    opacity: 0.25;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -2;
+
+   
+  }
+
+  .leftContainer {
+    flex: 2;
+
+    .row {
+      padding-top: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+
+      &:nth-child(2) {
+        width: 100%;
+        background-color: antiquewhite;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      @media screen and (max-width: 768px) {
+        &:last-child{
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+        }
+      }
+
+      .table {
+        width: 100%;
+        background-color: antiquewhite;
+        margin-bottom: 50px;
+        text-align: left;
+
+        .trTitle {
+          @media screen and (max-width: 768px) {
+            display: none;
+          }
+        }
+        .tr{
+          @media screen and (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+          }
+        }
+
+        .customerName {
+          font-size: 18px;
+
+          &::before{
+            content: "Customer Name: ";
+            font-weight: bold;
+           }
+        }
+        .id {
+         &::before{
+          content: "Order ID: ";
+          font-weight: bold;
+         }
+        }
+
+        .address {
+          &::before{
+            content: "Address : ";
+            font-weight: bold;
+           }
+        }
+
+        .total {
+          font-weight: 500;
+          font-size: 18px;
+
+          &::before{
+            content: "Total : ";
+            font-weight: bold;
+           }
+        }
+      }
+
+      .done {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @media screen and (max-width: 768px) {
+          margin-bottom: 20px;
+        }
+
+      }
+      .inProgress {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: inProgress 1s ease infinite alternate;
+
+        @keyframes inProgress {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+
+        @media screen and (max-width: 768px) {
+          margin-bottom: 20px;
+        }
+      }
+      .undone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.3;
+
+        
+        @media screen and (max-width: 768px) {
+          margin-bottom: 20px;
+        }
+      }
+
+      .undone .checkedIcon,
+      .inProgress .checkedIcon {
+        display: none;
+      }
+    }
+  }
+
+  .rightContainer {
+    flex: 1;
+
+    .wrapper {
+      width: 90%;
+      max-height: 300px;
+      background-color: #172235;
+      padding: 50px;
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: white;
+      border-radius: 10px;
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+
+      .totalText {
+        .totalTextTitle {
+          margin-right: 10px;
+        }
+      }
+      .button {
+        background-color: white;
+        height: 30px;
+        color: teal;
+        font-weight: bold;
+        margin-top: 20px;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
