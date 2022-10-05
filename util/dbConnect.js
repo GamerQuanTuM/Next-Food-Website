@@ -9,4 +9,5 @@ mongoose.connect(url).then(() => {
 }).catch(() => {
     console.log("No connection")
 });
+export default url;
 

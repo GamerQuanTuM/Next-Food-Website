@@ -9,7 +9,7 @@ const ProductCard = (props) => {
     <React.Fragment>
       <div className={styles.productCardContainer}>
         <Link href={`/products/${products._id}`} passHref>
-          <a><Image src={products?.image} alt="img" width="500" height="500" /></a>
+          <a><Image src={products?.image} alt="img" width="500" height="500" position="relative" priority = "true" /></a>
         </Link>
         <h1 className={styles.title}>{products?.title}</h1>
         <span className={styles.price}>${products?.prices[0]}</span>
