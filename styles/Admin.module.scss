@@ -1,0 +1,43 @@
+.adminContainer {
+  padding: 50px;
+  display: flex;
+
+  .item {
+    flex: 1;
+
+    .title {
+    }
+
+    .table {
+      width: 100%;
+      border-spacing: 20px;
+      text-align: left;
+
+      .trTitle {
+        .button {
+          border: none;
+          color: white;
+          padding: 5px;
+          cursor: pointer;
+
+          &:first-child {
+            background-color: teal;
+            margin-right: 10px;
+          }
+          &:last-child {
+            background-color: crimson;
+          }
+
+
+          .notAllowed {
+            cursor: not-allowed;
+          }
+
+          .pointer{
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

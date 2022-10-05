@@ -2,7 +2,8 @@ import React from "react";
 import styles from "../styles/ProductList.module.scss";
 import ProductCard from "./ProductCard";
 
-const ProductList = () => {
+
+const ProductList = ({product}) => {
   return (
     <div className={styles.productListContainer}>
       <h1 className={styles.title}>Lorem ipsum dolor sit.</h1>
@@ -13,18 +14,14 @@ const ProductList = () => {
         necessitatibus at. Commodi rerum mollitia blanditiis magnam id!
       </p>
       <div className={styles.wrapper}>
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {product?.map((products) => {
+          return <ProductCard key={products._id} products={products} />;
+        })}
       </div>
     </div>
   );
 };
+
+
 
 export default ProductList;

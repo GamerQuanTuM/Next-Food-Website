@@ -1,40 +1,79 @@
+import axios from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../redux/cartSlice";
 import styles from "../../styles/Products.module.scss";
 
-const Products = () => {
-  const [size, setSize] = useState(0);
-  const pizza = {
-    id: 1,
-    image: "/Images/pizza.png",
-    name: "CAMPAGNOLA",
-    price: [19.9, 23.9, 27.9],
-    desc: "Lorem ipsum dolor sit amet consectetur.",
+
+export async function getServerSideProps({ params }) {
+  const { data } = await axios(
+    `http://localhost:3000/api/products/${params.id}`
+  );
+  return {
+    props: {
+      product: data,
+    },
   };
+}
+
+const Products = ({ product }) => {
+  const [size, setSize] = useState(0);
+  const [price, setPrice] = useState(product.prices[0]);
+  const [extras, setExtras] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+
+  const changePrice = (number) => {
+    setPrice(price + number);
+  };
+
+  const handleSize = (sizeIndex) => {
+    const difference = product.prices[sizeIndex] - product.prices[size];
+    setSize(sizeIndex);
+    changePrice(difference);
+  };
+
+  const handleChange = (e, option) => {
+    const checked = e.target.checked;
+    console.log(e);
+
+    if (checked) {
+      changePrice(option.price);
+      setExtras((prev) => [...prev, option]);
+    } else {
+      changePrice(-option.price);
+      setExtras(extras.filter((extra) => extra._id !== option._id));
+    }
+  };
+
+  const handleClick = ()=>{
+    dispatch(addProduct({...product,extras,price,quantity}));
+  }
+
 
   return (
     <div className={styles.productContainer}>
       <div className={styles.leftContainer}>
         <div className={styles.imgContainer}>
-          <Image src={pizza.image} alt="" layout="fill" objectFit="contain" />
+          <Image src={product.image} alt="" layout="fill" objectFit="contain" />
         </div>
       </div>
       <div className={styles.rightContainer}>
-        <h1 className={styles.title}>{pizza.name}</h1>
-        <span className={styles.price}>${pizza.price[size]}</span>
-        <p className={styles.desc}>{pizza.desc}</p>
+        <h1 className={styles.title}>{product.title}</h1>
+        <span className={styles.price}>${price}</span>
+        <p className={styles.desc}>{product.desc}</p>
         <h3 className={styles.choose}>Choose the size</h3>
-
         <div className={styles.sizes}>
-          <div className={styles.size} onClick={() => setSize(0)}>
+          <div className={styles.size} onClick={() => handleSize(0)}>
             <Image src="/Images/size.png" alt="" layout="fill" />
             <span className={styles.number}>Small</span>
           </div>
-          <div className={styles.size} onClick={() => setSize(1)}>
+          <div className={styles.size} onClick={() => handleSize(1)}>
             <Image src="/Images/size.png" alt="" layout="fill" />
             <span className={styles.number}>Medium</span>
           </div>
-          <div className={styles.size} onClick={() => setSize(2)}>
+          <div className={styles.size} onClick={() => handleSize(2)}>
             <Image src="/Images/size.png" alt="" layout="fill" />
             <span
               style={{
@@ -51,46 +90,26 @@ const Products = () => {
         </div>
         <h3 className={styles.choose}>Choose additional ingredients</h3>
         <div className={styles.ingredients}>
-          <div className={styles.option}>
-            <input
-              type="checkbox"
-              name="double"
-              id="double"
-              className={styles.checkbox}
-            />
-            <label htmlFor="double">Double Ingredients</label>
-          </div>
-          <div className={styles.option}>
-            <input
-              type="checkbox"
-              name="cheese"
-              id="cheese"
-              className={styles.checkbox}
-            />
-            <label htmlFor="cheese">Extra Cheese</label>
-          </div>
-          <div className={styles.option}>
-            <input
-              type="checkbox"
-              name="spicy"
-              id="spicy"
-              className={styles.checkbox}
-            />
-            <label htmlFor="spicy">Spicy Sauce</label>
-          </div>
-          <div className={styles.option}>
-            <input
-              type="checkbox"
-              name="garlic"
-              id="garlic"
-              className={styles.checkbox}
-            />
-            <label htmlFor="garlic">Garlic Sauce</label>
-          </div>
+          {product.extraOptions.map((option) => {
+            return (
+              <div key={option._id}>
+                <div className={styles.option}>
+                  <input
+                    type="checkbox"
+                    name={option.text}
+                    id={option.text}
+                    className={styles.checkbox}
+                    onChange={(e) => handleChange(e, option)}
+                  />
+                  <label htmlFor="double">{option.text}</label>
+                </div>
+              </div>
+            );
+          })}
         </div>
         <div className={styles.add}>
-          <input type="number" defaultValue={1} className={styles.quantity} />
-          <button className={styles.button}>Add to Cart</button>
+          <input onChange={(e)=>setQuantity(e.target.value)} type="number" defaultValue={1} className={styles.quantity} />
+          <button className={styles.button} onClick={handleClick}>Add to Cart</button>
         </div>
       </div>
     </div>
